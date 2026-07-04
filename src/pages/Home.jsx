@@ -357,13 +357,10 @@ export default function Home({ products, setActivePage, setCategoryFilter, onPro
             </button>
 
             <div className="testimonial-card-premium">
-              <div className="testimonial-avatar-wrapper">
-                <img src={testimonials[activeTestimonial].avatar} alt={testimonials[activeTestimonial].author} className="testimonial-avatar" />
-                <div className="testimonial-stars">
-                  {Array.from({ length: testimonials[activeTestimonial].rating }).map((_, i) => (
-                    <Star key={i} size={18} fill="#F1C40F" color="#F1C40F" />
-                  ))}
-                </div>
+              <div className="testimonial-stars" style={{ display: 'flex', gap: '4px', justifyContent: 'center', marginBottom: '24px' }}>
+                {Array.from({ length: testimonials[activeTestimonial].rating }).map((_, i) => (
+                  <Star key={i} size={18} fill="#F1C40F" color="#F1C40F" />
+                ))}
               </div>
               <p className="testimonial-text-premium">{testimonials[activeTestimonial].text}</p>
               <div className="testimonial-author-premium">
