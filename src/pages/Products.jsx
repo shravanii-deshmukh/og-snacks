@@ -105,36 +105,25 @@ export default function Products({ products, activeCategory, setActiveCategory, 
 
           <div className="filter-group">
             <h3>Dietary Claims</h3>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <label className="checkbox-label">
-                <input 
-                  type="checkbox" 
-                  checked={dietaryFilters.vegan}
-                  onChange={() => handleDietaryChange('vegan')}
-                  style={{ cursor: 'pointer' }}
-                />
-                <span>Vegan Claim</span>
-              </label>
-
-              <label className="checkbox-label">
-                <input 
-                  type="checkbox" 
-                  checked={dietaryFilters.glutenFree}
-                  onChange={() => handleDietaryChange('glutenFree')}
-                  style={{ cursor: 'pointer' }}
-                />
-                <span>Gluten-Free</span>
-              </label>
-
-              <label className="checkbox-label">
-                <input 
-                  type="checkbox" 
-                  checked={dietaryFilters.organic}
-                  onChange={() => handleDietaryChange('organic')}
-                  style={{ cursor: 'pointer' }}
-                />
-                <span>100% Organic</span>
-              </label>
+            <div className="dietary-pills-list">
+              <button 
+                className={`pill-filter-btn ${dietaryFilters.vegan ? 'active' : ''}`}
+                onClick={() => handleDietaryChange('vegan')}
+              >
+                🌱 Vegan
+              </button>
+              <button 
+                className={`pill-filter-btn ${dietaryFilters.glutenFree ? 'active' : ''}`}
+                onClick={() => handleDietaryChange('glutenFree')}
+              >
+                🌾 Gluten-Free
+              </button>
+              <button 
+                className={`pill-filter-btn ${dietaryFilters.organic ? 'active' : ''}`}
+                onClick={() => handleDietaryChange('organic')}
+              >
+                ☀️ 100% Organic
+              </button>
             </div>
           </div>
 
@@ -178,7 +167,13 @@ export default function Products({ products, activeCategory, setActiveCategory, 
         {/* Main Content Area */}
         <main className="products-main-content">
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <h1>Our Snack Catalogue</h1>
+            <h1 style={{ marginBottom: '4px' }}>Our Snack Catalogue</h1>
+            <span className="catalogue-stats-subtext" style={{ fontSize: '0.9rem', color: 'var(--color-text-muted)', marginBottom: '24px', fontWeight: 600 }}>
+              Showing {filteredProducts.length} premium healthy snacks
+              {(dietaryFilters.vegan || dietaryFilters.glutenFree || dietaryFilters.organic) && (
+                <> matching filters: {dietaryFilters.vegan && "🌱 Vegan "}{dietaryFilters.glutenFree && "🌾 Gluten-Free "}{dietaryFilters.organic && "☀️ Organic"}</>
+              )}
+            </span>
             
             {/* Toolbar */}
             <div className="products-toolbar">
@@ -218,15 +213,22 @@ export default function Products({ products, activeCategory, setActiveCategory, 
                     <div className="product-image-container" onClick={() => onProductClick(product)}>
                       <img src={product.image} alt={product.name} />
                     </div>
-                    <div className="product-tags">
-                      {product.tags.map(tag => (
-                        <span 
-                          key={tag} 
-                          className={`product-badge ${tag === 'best seller' ? 'badge-best-seller' : (tag === 'new' ? 'badge-new' : 'badge-healthy')}`}
-                        >
-                          {tag}
-                        </span>
-                      ))}
+                    <div className="product-tags-wrapper" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                      <div className="product-tags" style={{ margin: 0 }}>
+                        {product.tags.map(tag => (
+                          <span 
+                            key={tag} 
+                            className={`product-badge ${tag === 'best seller' ? 'badge-best-seller' : (tag === 'new' ? 'badge-new' : 'badge-healthy')}`}
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                      <div className="card-dietary-badge-row" style={{ display: 'flex', gap: '4px' }}>
+                        {product.dietary.includes('vegan') && <span className="card-dietary-badge-icon" title="Vegan" style={{ fontSize: '0.9rem' }}>🌱</span>}
+                        {product.dietary.includes('gluten-free') && <span className="card-dietary-badge-icon" title="Gluten-Free" style={{ fontSize: '0.9rem' }}>🌾</span>}
+                        {product.dietary.includes('organic') && <span className="card-dietary-badge-icon" title="100% Organic" style={{ fontSize: '0.9rem' }}>☀️</span>}
+                      </div>
                     </div>
                     <h3 onClick={() => onProductClick(product)}>{product.name}</h3>
                     <div className="product-rating">
